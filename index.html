@@ -207,8 +207,10 @@
     // Event listener untuk formulir saat disubmit
     document.getElementById("visitorForm").addEventListener("submit", function(event) {
         event.preventDefault(); // Menghentikan form untuk dikirim secara default
+        console.log('Form submitted');  // Debug log
 
         const formData = new FormData(this);  // Mengambil data dari form
+        console.log(formData);  // Debug log form data
 
         // Mengirimkan data form ke EmailJS
         emailjs.sendForm("service_k8nki18", "template_3sbeqwd", formData)
