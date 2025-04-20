@@ -142,7 +142,7 @@
   <h2>Pendaftaran Kunjungan Online</h2>
 
   <div class="form-container">
-    <form action="submit_form.php" method="post">
+    <form id="visitorForm">
       <label for="nama">Nama Pengunjung</label>
       <input type="text" id="nama" name="nama" required>
 
@@ -189,7 +189,7 @@
     &copy; 2025 Lapas Kelas IIA Kotabaru | SI CENI
   </footer>
 
-  <script>
+  <script type="text/javascript">
     // Set tanggal minimum (tidak bisa memilih tanggal sebelumnya)
     let today = new Date();
     let minDateString = today.toISOString().split('T')[0];
@@ -200,8 +200,27 @@
     maxDate.setDate(today.getDate() + 2);
     let maxDateString = maxDate.toISOString().split('T')[0];
     document.getElementById('tanggal_kunjungan').setAttribute('max', maxDateString);
-</script>
 
+    // Inisialisasi EmailJS dengan Public Key
+    emailjs.init("v7FQliWty-kceC2Bk"); // Ganti dengan Public Key dari EmailJS
+
+    // Event listener untuk formulir saat disubmit
+    document.getElementById("visitorForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Menghentikan form untuk dikirim secara default
+
+        const formData = new FormData(this);  // Mengambil data dari form
+
+        // Mengirimkan data form ke EmailJS
+        emailjs.sendForm("service_k8nki18", "template_3sbeqwd", formData)
+            .then(function(response) {
+                console.log('Success:', response); // Debug log untuk respon sukses
+                alert('Pendaftaran berhasil, konfirmasi telah dikirim!');
+            }, function(error) {
+                console.error('Error:', error); // Debug log untuk error
+                alert('Terjadi kesalahan: ' + error);
+            });
+    });
+  </script>
 
 </body>
 </html>
