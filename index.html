@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Layanan Kunjungan - SI CENI</title>
-  
+
   <!-- Menambahkan CDN untuk EmailJS -->
   <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
   
@@ -217,7 +217,7 @@
         console.log(formData);  // Debug log form data
 
         // Mengirimkan data form ke EmailJS
-        emailjs.sendForm("service_k8nki18", "template_3sbeqwd", formData)
+        emailjs.sendForm("service_k8nki18", "template_3sbeqwd", this)
             .then(function(response) {
                 console.log('Success:', response); // Debug log untuk respon sukses
                 alert('Pendaftaran berhasil, konfirmasi telah dikirim!');
