@@ -21,6 +21,20 @@
       text-align: center;
     }
 
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .header img {
+      width: 150px;
+    }
+
+    .header p {
+      font-size: 1.2rem;
+      color: #f6c700;
+    }
+
     .jadwal-box {
       max-width: 600px;
       margin: 2rem auto;
@@ -119,6 +133,13 @@
 </head>
 <body>
 
+  <!-- Header Section with Logo and Text -->
+  <div class="header">
+    <img src="siceni.png" alt="IMIPAS Logo">
+    <p>KEMENTERIAN IMIGRASI DAN PEMASYARAKATAN</p>
+    <p>LAPAS KELAS IIA KOTABARU</p>
+  </div>
+
   <h1>SI CENI - Layanan Kunjungan</h1>
   <h2>JADWAL LAYANAN KUNJUNGAN</h2>
 
@@ -175,7 +196,7 @@
       <input type="text" id="hubungan" name="hubungan" required>
 
       <label for="jumlah_pengikut">Jumlah Pengikut (Maksimal 3 orang)</label>
-      <input type="number" id="jumlah_pengikut" name="jumlah_pengikut" max="3" required>
+      <input type="number" id="jumlah_pengikut" name="jumlah_pengikut" min="0" max="3" required>
 
       <label for="tanggal_kunjungan">Tanggal Kunjungan</label>
       <input type="date" id="tanggal_kunjungan" name="tanggal_kunjungan" min="" required>
@@ -221,6 +242,10 @@
             .then(function(response) {
                 console.log('Success:', response); // Debug log untuk respon sukses
                 alert('Pendaftaran berhasil, konfirmasi telah dikirim!');
+                
+                // Setelah berhasil submit, kosongkan formulir dan kembali ke halaman utama
+                document.getElementById('visitorForm').reset(); // Reset formulir
+                window.location.href = "https://riskyrendy7.github.io/layanan-kunjungan"; // Arahkan kembali ke halaman utama
             }, function(error) {
                 console.error('Error:', error); // Debug log untuk error
                 alert('Terjadi kesalahan: ' + error);
