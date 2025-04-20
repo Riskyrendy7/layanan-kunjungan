@@ -238,18 +238,18 @@
         console.log(formData);  // Debug log form data
 
         // Mengirimkan data form ke EmailJS
-        emailjs.sendForm("service_k8nki18", "template_3sbeqwd", this)
-            .then(function(response) {
-                console.log('Success:', response); // Debug log untuk respon sukses
-                alert('Pendaftaran berhasil, konfirmasi telah dikirim!');
-                
-                // Setelah berhasil submit, kosongkan formulir dan kembali ke halaman utama
-                document.getElementById('visitorForm').reset(); // Reset formulir
-                window.location.href = "https://riskyrendy7.github.io/layanan-kunjungan"; // Arahkan kembali ke halaman utama
-            }, function(error) {
-                console.error('Error:', error); // Debug log untuk error
-                alert('Terjadi kesalahan: ' + error);
-            });
+       emailjs.sendForm("service_k8nki18", "template_3sbeqwd", this)
+    .then(function(response) {
+        console.log('Success:', response); // Debug log untuk respon sukses
+        alert('Pendaftaran berhasil, konfirmasi telah dikirim!');
+
+        // Setelah berhasil submit, kosongkan formulir dan kembali ke halaman utama
+        document.getElementById('visitorForm').reset(); // Reset formulir
+        window.location.href = "https://riskyrendy7.github.io/layanan-kunjungan"; // Arahkan kembali ke halaman utama
+    }, function(error) {
+        console.error('Error:', error); // Debug log untuk error
+        alert('Terjadi kesalahan: ' + error);
+    });
     });
   </script>
 
