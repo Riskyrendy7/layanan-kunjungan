@@ -69,9 +69,52 @@
       background-color: #ffdb4d;
       transform: scale(1.05);
     }
+
+    .form-container {
+      background-color: #ffffff;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      margin: 2rem auto;
+      color: #333; /* Pastikan teks di form terlihat jelas */
+    }
+
+    label {
+      font-weight: bold;
+      margin-top: 1rem;
+      color: #333; /* Warna label yang lebih kontras */
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.8rem;
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      color: #333; /* Pastikan teks input dapat terbaca */
+      background-color: #f9f9f9; /* Warna latar belakang input agar lebih terang */
+    }
+
+    button {
+      background-color: #f6c700;
+      padding: 0.8rem;
+      border: none;
+      border-radius: 4px;
+      color: #fff;
+      font-weight: bold;
+      width: 100%;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #ffdb4d;
+    }
   </style>
 </head>
 <body>
+
   <h1>SI CENI - Layanan Kunjungan</h1>
   <h2>JADWAL LAYANAN KUNJUNGAN</h2>
 
@@ -96,10 +139,69 @@
     </ol>
   </div>
 
+  <h2>Pendaftaran Kunjungan Online</h2>
+
+  <div class="form-container">
+    <form action="submit_form.php" method="post">
+      <label for="nama">Nama Pengunjung</label>
+      <input type="text" id="nama" name="nama" required>
+
+      <label for="nik">NIK/No. SIM/No. Kartu Identitas</label>
+      <input type="text" id="nik" name="nik" required>
+
+      <label for="jenis_kelamin">Jenis Kelamin</label>
+      <select id="jenis_kelamin" name="jenis_kelamin" required>
+        <option value="laki-laki">Laki-laki</option>
+        <option value="perempuan">Perempuan</option>
+      </select>
+
+      <label for="alamat">Alamat Pengunjung</label>
+      <input type="text" id="alamat" name="alamat" required>
+
+      <label for="no_hp">No. HP</label>
+      <input type="tel" id="no_hp" name="no_hp" required>
+
+      <label for="warga_binaan">Nama Warga Binaan</label>
+      <input type="text" id="warga_binaan" name="warga_binaan" required>
+
+      <label for="blok_hunian">Blok Hunian (Opsional)</label>
+      <input type="text" id="blok_hunian" name="blok_hunian">
+
+      <label for="hubungan">Hubungan dengan Warga Binaan</label>
+      <input type="text" id="hubungan" name="hubungan" required>
+
+      <label for="jumlah_pengikut">Jumlah Pengikut (Maksimal 3 orang)</label>
+      <input type="number" id="jumlah_pengikut" name="jumlah_pengikut" max="3" required>
+
+      <label for="tanggal_kunjungan">Tanggal Kunjungan</label>
+      <input type="date" id="tanggal_kunjungan" name="tanggal_kunjungan" min="" required>
+
+      <label for="email">Alamat Email</label>
+      <input type="email" id="email" name="email" required>
+
+      <button type="submit">Daftar Kunjungan</button>
+    </form>
+  </div>
+
   <a href="https://riskyrendy7.github.io/si-ceni" class="back-button">⬅️ Kembali ke Halaman Utama</a>
 
   <footer>
     &copy; 2025 Lapas Kelas IIA Kotabaru | SI CENI
   </footer>
+
+  <script>
+    // Set tanggal minimum (tidak bisa memilih tanggal sebelumnya)
+    let today = new Date();
+    let minDateString = today.toISOString().split('T')[0];
+    document.getElementById('tanggal_kunjungan').setAttribute('min', minDateString);
+
+    // Set tanggal maksimum dua hari setelah hari ini
+    let maxDate = new Date(today);
+    maxDate.setDate(today.getDate() + 2);
+    let maxDateString = maxDate.toISOString().split('T')[0];
+    document.getElementById('tanggal_kunjungan').setAttribute('max', maxDateString);
+</script>
+
+
 </body>
 </html>
