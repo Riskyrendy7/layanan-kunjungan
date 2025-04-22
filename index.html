@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Layanan Kunjungan - SI CENI</title>
 
+  <!-- Menambahkan CDN untuk EmailJS -->
   <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
 
   <style>
@@ -143,29 +144,25 @@
       const formattedDate = tanggalKunjungan.split('-').join('');
       const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/Tanggal!A:B?key=${API_KEY}`;
 
-      // Ambil data dari Google Sheets
       const response = await fetch(url);
       const data = await response.json();
 
-      // Cari nomor antrian untuk tanggal yang sesuai
-      let nomorUrut = 1;
+      let nomorUrut = 1;  // Mulai dari nomor urut 1
       let totalKunjungan = 0;
       const rows = data.values;
       if (rows) {
         for (const row of rows) {
           if (row[0] === formattedDate) {
-            nomorUrut = parseInt(row[1]) + 1;
-            totalKunjungan += 1; // Hitung jumlah kunjungan
+            nomorUrut = parseInt(row[1]) + 1;  // Menambah nomor antrian untuk tanggal yang sama
+            totalKunjungan += 1;
           }
         }
       }
 
-      // Cek apakah jumlah kunjungan sudah mencapai 50
       if (totalKunjungan >= 50) {
-        return { nomorUrut: null, totalKunjungan }; // Jika sudah mencapai 50 kunjungan
+        return { nomorUrut: null, totalKunjungan };
       }
 
-      // Kembali ke nomor urut yang akan digunakan
       return { nomorUrut, totalKunjungan };
     }
 
@@ -207,7 +204,6 @@
         const { nomorUrut, totalKunjungan } = await getNomorAntrian(tanggalKunjungan);
 
         if (nomorUrut === null) {
-          // Jika jumlah kunjungan sudah mencapai 50
           alert("Pendaftaran sudah penuh untuk tanggal ini. Silakan pilih tanggal lain.");
           return;
         }
