@@ -171,7 +171,7 @@
       <label for="nama">Nama Pengunjung</label>
       <input type="text" id="nama" name="nama" required>
 
-      <label for="nik">NIK/No. SIM/No. Kartu Identitas</label>
+      <label for="nik">NIK/No. SIM/No. Identitas</label>
       <input type="text" id="nik" name="nik" required>
 
       <label for="jenis_kelamin">Jenis Kelamin</label>
@@ -237,19 +237,28 @@
         const formData = new FormData(this);  // Mengambil data dari form
         console.log(formData);  // Debug log form data
 
-        // Mengirimkan data form ke EmailJS
-       emailjs.sendForm("service_k8nki18", "template_3sbeqwd", this)
-    .then(function(response) {
-        console.log('Success:', response); // Debug log untuk respon sukses
-        alert('Pendaftaran berhasil, konfirmasi telah dikirim!');
+        // Membuat nomor antrian berdasarkan tanggal kunjungan
+        const tanggalKunjungan = document.getElementById('tanggal_kunjungan').value;
+        const dateParts = tanggalKunjungan.split('-'); // Mengambil tanggal dari input
+        const formattedDate = dateParts.join(''); // Menggabungkan menjadi format YYYYMMDD
+        const nomorAntrian = `${formattedDate}-001`; // Format nomor antrian (misalnya 20250422-001)
 
-        // Setelah berhasil submit, kosongkan formulir dan kembali ke halaman utama
-        document.getElementById('visitorForm').reset(); // Reset formulir
-        window.location.href = "https://riskyrendy7.github.io/layanan-kunjungan"; // Arahkan kembali ke halaman utama
-    }, function(error) {
-        console.error('Error:', error); // Debug log untuk error
-        alert('Terjadi kesalahan: ' + error);
-    });
+        // Menambahkan nomor antrian ke form data
+        formData.append('nomor_antrian', nomorAntrian);
+
+        // Mengirimkan data form ke EmailJS
+        emailjs.sendForm("service_k8nki18", "template_3sbeqwd", this)
+        .then(function(response) {
+            console.log('Success:', response); // Debug log untuk respon sukses
+            alert(`Pendaftaran berhasil! Nomor antrian Anda: ${nomorAntrian}.\nKonfirmasi telah dikirim ke email Anda.`);
+
+            // Setelah berhasil submit, kosongkan formulir dan kembali ke halaman utama
+            document.getElementById('visitorForm').reset(); // Reset formulir
+            window.location.href = "https://riskyrendy7.github.io/layanan-kunjungan"; // Arahkan kembali ke halaman utama
+        }, function(error) {
+            console.error('Error:', error); // Debug log untuk error
+            alert('Terjadi kesalahan: ' + error);
+        });
     });
   </script>
 
