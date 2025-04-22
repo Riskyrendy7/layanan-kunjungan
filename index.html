@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Layanan Kunjungan - SI CENI</title>
 
-  <!-- Menambahkan CDN untuk EmailJS -->
   <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
 
   <style>
@@ -193,40 +192,43 @@
       return data;
     }
 
-    // Event listener untuk formulir saat disubmit
-    document.getElementById("visitorForm").addEventListener("submit", async function(event) {
-      event.preventDefault(); // Menghentikan form untuk dikirim secara default
+    // Menunggu dokumen dimuat sepenuhnya sebelum menjalankan JavaScript
+    document.addEventListener("DOMContentLoaded", function() {
+      // Event listener untuk formulir saat disubmit
+      document.getElementById("visitorForm").addEventListener("submit", async function(event) {
+        event.preventDefault(); // Menghentikan form untuk dikirim secara default
 
-      const formData = new FormData(this);  // Mengambil data dari form
+        const formData = new FormData(this);  // Mengambil data dari form
 
-      // Membuat nomor antrian berdasarkan tanggal kunjungan
-      const tanggalKunjungan = document.getElementById('tanggal_kunjungan').value;
+        // Membuat nomor antrian berdasarkan tanggal kunjungan
+        const tanggalKunjungan = document.getElementById('tanggal_kunjungan').value;
 
-      // Ambil nomor antrian dan jumlah kunjungan dari Google Sheets
-      const { nomorUrut, totalKunjungan } = await getNomorAntrian(tanggalKunjungan);
+        // Ambil nomor antrian dan jumlah kunjungan dari Google Sheets
+        const { nomorUrut, totalKunjungan } = await getNomorAntrian(tanggalKunjungan);
 
-      if (nomorUrut === null) {
-        // Jika jumlah kunjungan sudah mencapai 50
-        alert("Pendaftaran sudah penuh untuk tanggal ini. Silakan pilih tanggal lain.");
-        return;
-      }
+        if (nomorUrut === null) {
+          // Jika jumlah kunjungan sudah mencapai 50
+          alert("Pendaftaran sudah penuh untuk tanggal ini. Silakan pilih tanggal lain.");
+          return;
+        }
 
-      const nomorAntrian = `${tanggalKunjungan.split('-').join('')}-${String(nomorUrut).padStart(3, '0')}`;
+        const nomorAntrian = `${tanggalKunjungan.split('-').join('')}-${String(nomorUrut).padStart(3, '0')}`;
 
-      // Menambahkan nomor antrian ke form data
-      formData.append('nomor_antrian', nomorAntrian);
+        // Menambahkan nomor antrian ke form data
+        formData.append('nomor_antrian', nomorAntrian);
 
-      // Update nomor antrian di Google Sheets
-      await updateNomorAntrian(tanggalKunjungan, nomorUrut);
+        // Update nomor antrian di Google Sheets
+        await updateNomorAntrian(tanggalKunjungan, nomorUrut);
 
-      // Mengirimkan data form ke EmailJS
-      emailjs.sendForm("service_k8nki18", "template_3sbeqwd", this)
-      .then(function(response) {
-        alert(`Pendaftaran berhasil! Nomor antrian Anda: ${nomorAntrian}.\nKonfirmasi telah dikirim ke email Anda.`);
-        document.getElementById('visitorForm').reset(); // Reset formulir
-        window.location.href = "https://riskyrendy7.github.io/layanan-kunjungan"; // Arahkan kembali ke halaman utama
-      }, function(error) {
-        alert('Terjadi kesalahan: ' + error);
+        // Mengirimkan data form ke EmailJS
+        emailjs.sendForm("service_k8nki18", "template_3sbeqwd", this)
+          .then(function(response) {
+            alert(`Pendaftaran berhasil! Nomor antrian Anda: ${nomorAntrian}.\nKonfirmasi telah dikirim ke email Anda.`);
+            document.getElementById('visitorForm').reset(); // Reset formulir
+            window.location.href = "https://riskyrendy7.github.io/layanan-kunjungan"; // Arahkan kembali ke halaman utama
+          }, function(error) {
+            alert('Terjadi kesalahan: ' + error);
+          });
       });
     });
   </script>
